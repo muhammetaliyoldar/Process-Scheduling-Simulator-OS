@@ -1,179 +1,247 @@
 # CS305 Process Scheduling Simulator 🚀
 
-![Python Version](https://img.shields.io/badge/python-3.10%2B-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-![Course](https://img.shields.io/badge/course-CS305-orange)
+![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
+![Tkinter](https://img.shields.io/badge/GUI-Tkinter-green.svg)
+![Automation](https://img.shields.io/badge/Automation-CSV%20%7C%20Logging-orange.svg)
+![Data Analysis](https://img.shields.io/badge/Analysis-Smart%20Recommendation-purple.svg)
 
-A comprehensive CPU process scheduling simulator implementing four classic scheduling algorithms with both **Command-Line Interface (CLI)** and **Graphical User Interface (GUI)** support.
-
-## 📋 Overview
-
-This simulator demonstrates the behavior of four fundamental CPU scheduling algorithms:
-
-- **FCFS** (First Come First Served) - Non-preemptive
-- **SJF** (Shortest Job First) - Non-preemptive
-- **Priority Scheduling** - Non-preemptive
-- **Round Robin** - Preemptive with configurable time quantum
-
-The project features a hybrid architecture supporting both terminal-based execution for batch processing and an interactive GUI for visual analysis of scheduling behavior, Gantt charts, and performance metrics.
-
-## ✨ Features
-
-✅ **Hybrid Architecture** - Run in CLI or GUI mode  
-✅ **Gantt Chart Visualization** - Color-coded timeline with process execution  
-✅ **Auto-calculation** - Waiting time, turnaround time, and CPU utilization  
-✅ **Idle Time Handling** - Properly manages CPU idle periods  
-✅ **Multiple Test Cases** - Includes starvation, tie-breaking, and stress tests  
-✅ **Clean Code** - Well-documented, student-friendly implementation  
-
-## 🛠️ Installation
-
-```bash
-git clone https://github.com/muhammetaliyoldar/Process-Scheduling-Simulator-OS.git
-
-```
-
-**Requirements:** Python 3.10+ (no external dependencies required)
-
-## 🖥️ Usage - GUI Mode
-
-Launch the graphical interface for interactive scheduling:
-
-```bash
-python main.py
-```
-
-### GUI Main Screen
-![GUI Main Screen](screenshots/gui_main.png)
-
-### GUI Results
-![GUI Results](screenshots/gui_results.png)
-
-**Features:**
-- Browse and select input files
-- Configure time quantum for Round Robin
-- Run any algorithm with a single click
-- View color-coded Gantt charts
-- Analyze detailed process metrics in table format
-
-## 💻 Usage - CLI Mode
-
-Run all four algorithms from the command line:
-
-```bash
-python main.py data/input.txt
-```
-
-Alternatively, use the Makefile:
-
-```bash
-make run
-```
-
-### CLI General Output
-![CLI General Output](screenshots/cli_output-FCFS.png)
-
-The CLI mode automatically executes all four scheduling algorithms sequentially and displays:
-- Gantt chart timeline
-- Process details table (Arrival, Burst, Finish, Turnaround, Waiting times)
-- Average turnaround and waiting times
-- CPU utilization percentage
-
-## 📊 Algorithm Comparisons
-
-### SJF (Shortest Job First)
-![SJF Output](screenshots/cli_output-SJF.png)
-
-### Priority Scheduling
-![Priority Output](screenshots/cli_output-Priority.png)
-
-### Round Robin
-![Round Robin Output](screenshots/cli_output-RR.png)
-
-## 📁 Project Structure
-
-```
-CS305_Scheduler/
-│
-├── data/
-│   ├── input.txt          # Instructor's example dataset
-│   ├── starvation.txt     # Priority starvation demonstration
-│   ├── idle_test.txt      # CPU idle time testing
-│   ├── ties.txt           # Tie-breaking scenarios
-│   └── rr_heavy.txt       # Round Robin stress test
-│
-├── src/
-│   ├── __init__.py
-│   ├── model.py           # Process class and data structures
-│   ├── parser.py          # File I/O operations
-│   ├── scheduler.py       # Core scheduling algorithms
-│   ├── cli_view.py        # Terminal output formatting
-│   └── gui_view.py        # Tkinter GUI implementation
-│
-├── screenshots/           # Visual documentation
-├── main.py               # Application entry point
-├── README.md             # This file
-├── requirements.txt      # Dependencies (none required)
-└── Makefile             # Quick command shortcuts
-```
-
-## 🧪 Test Files
-
-The project includes 5 carefully designed test scenarios:
-
-1. **input.txt** - Standard test case from assignment specifications
-2. **starvation.txt** - Demonstrates priority scheduling starvation
-3. **idle_test.txt** - Tests CPU idle period handling
-4. **ties.txt** - Tests tie-breaking rules in FCFS and SJF
-5. **rr_heavy.txt** - Stress tests Round Robin with varying burst times
-
-## 🎯 Algorithms Explained
-
-### FCFS (First Come First Served)
-Processes are executed in the order they arrive. Simple but can suffer from the convoy effect.
-
-### SJF (Shortest Job First)
-Selects the process with the shortest burst time among arrived processes. Minimizes average waiting time but can cause starvation.
-
-### Priority Scheduling
-Executes processes based on priority levels (lower number = higher priority). Can lead to starvation of low-priority processes.
-
-### Round Robin
-Each process gets a fixed time slice (quantum). Fair scheduling that prevents starvation but may have higher context-switching overhead.
-
-## 🚀 Quick Start Commands
-
-```bash
-# Run GUI mode
-make gui
-
-# Run CLI mode with default dataset
-make run
-
-# Clean up cache files
-make clean
-```
-
-## 📝 Input File Format
-
-```
-# Comments start with #
-Process_ID,Arrival_Time,Burst_Time,Priority
-P1,0,8,3
-P2,1,4,1
-P3,2,9,4
-```
-
-## 👨‍💻 Author
-
-**Muhammet Ali Yoldar** - 200444035  
-Türk Hava Kurumu University  
-CS305 - Operating Systems  
-
-## 📄 License
-
-This project is licensed under the MIT License - feel free to use it for educational purposes.
+A **hybrid (CLI + GUI) process scheduling simulator** that compares **FCFS, SJF, Priority, and Round Robin** algorithms with intelligent performance analysis and automated reporting. Built with pure Python standard library for maximum portability.
 
 ---
 
-*Built with ❤️ using Python Standard Library*
+## ✨ Key Features
+
+- 🎨 **Interactive GUI** with dynamic Gantt charts and real-time visualization
+- 🧠 **Smart Recommendation Engine** - Auto-detects the most efficient algorithm
+- 📊 **Auto-Export to CSV** - Timestamped results with append mode for historical tracking
+- ⚡ **Configurable Time Quantum** via command-line arguments
+- 🛠 **Comprehensive Logging System** - Full traceability with `simulation.log`
+- 🎯 **Active State Tracking** - Visual feedback for algorithm selection
+- 📈 **Performance Metrics** - Average Waiting Time, Turnaround Time, CPU Utilization
+
+---
+
+## 🚀 Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/muhammetaliyoldar/Process-Scheduling-Simulator-OS.git
+
+# Navigate to project directory
+cd Process-Scheduling-Simulator-OS
+
+# No external dependencies! Pure Python Standard Library
+python main.py
+```
+
+---
+
+## 💻 Usage & Visualization
+
+### A) Graphical User Interface (The Dashboard)
+
+Run `python main.py` for the interactive mode. Features **active state tracking**, **progress animations**, and **real-time visualization** with color-coded Gantt charts.
+
+![GUI Final](screenshots/gui_final.png)
+
+The GUI offers:
+- File browser for easy input selection
+- One-click algorithm execution with visual feedback
+- Dynamic Gantt chart rendering
+- Detailed process metrics in tabular format
+- Export functionality with progress indication
+
+---
+
+### B) CLI Mode - Execution
+
+Run via terminal with arguments for batch processing. Example of starting the simulator:
+
+```bash
+python main.py data/processes.txt 5
+```
+
+![CLI Start](screenshots/cli_start.png)
+
+The CLI mode automatically executes all four algorithms sequentially and generates comprehensive reports.
+
+---
+
+### C) Algorithm Results (Gallery)
+
+Detailed metrics and ASCII Gantt charts for each scheduling algorithm:
+
+#### FCFS (First Come First Served)
+![FCFS Output](screenshots/cli_output-FCFS.png)
+
+#### SJF (Shortest Job First)
+![SJF Output](screenshots/cli_output-SJF.png)
+
+#### Priority Scheduling
+![Priority Output](screenshots/cli_output-Priority.png)
+
+#### Round Robin (Time Quantum = 5)
+![RR Output](screenshots/cli_output-RR(TQ=5).png)
+
+*Note: The Time Quantum value (5) was passed as the second command-line argument.*
+
+---
+
+### D) Smart Analysis & Winner Detection
+
+The system **compares all algorithms** and recommends the most efficient one based on Average Waiting Time with visual star highlighting.
+
+![Smart Analysis](screenshots/cli_final.png)
+
+The recommendation engine analyzes:
+- Average Waiting Time (primary metric)
+- Average Turnaround Time
+- CPU Utilization
+- Algorithmic complexity trade-offs
+
+---
+
+## 🔧 Engineering & Data Insights
+
+### System Logging
+
+Robust background logging for **debugging and traceability**. Every operation is timestamped and recorded:
+
+![Log System](screenshots/log_preview.png)
+
+Logged events include:
+- Application lifecycle (startup, mode selection)
+- File parsing operations
+- Algorithm execution phases
+- Performance metrics
+- Export operations
+- Error handling
+
+---
+
+### Data Persistence (CSV)
+
+Results are **automatically appended** to `results.csv` for further processing, analysis, and visualization in external tools.
+
+![CSV Export](screenshots/csv_preview.png)
+
+CSV Format:
+```csv
+Timestamp,Algorithm,Process_ID,Arrival,Burst,Priority,Finish,Turnaround,Waiting
+2025-12-19 18:22:53,FCFS,P1,0,8,3,8,8,0
+```
+
+Features:
+- **Append mode** - Historical data preservation
+- **Timestamp tracking** - Run-time metadata
+- **Priority inclusion** - Complete process information
+- **UTF-8 encoding** - Universal compatibility
+
+---
+
+## 📁 Input File Format
+
+Input files should be plain text (CSV format) with the following structure:
+
+```
+Process_ID,Arrival_Time,Burst_Time,Priority
+```
+
+**Example:**
+```
+P1,0,8,3
+P2,1,4,1
+P3,2,9,4
+P4,3,5,2
+```
+
+- Lines starting with `#` are treated as comments
+- Lower priority number = Higher priority
+- All times are in arbitrary time units
+
+---
+
+## 🎯 Project Structure
+
+```
+CS305_Scheduler/
+├── main.py                 # Entry point (mode selector)
+├── simulation.log          # Auto-generated execution log
+├── results.csv             # Exported metrics (append mode)
+├── data/                   # Test input files
+│   ├── processes.txt       # Standard dataset
+│   ├── starvation.txt      # Priority starvation demonstration
+│   └── rr_heavy.txt        # Round Robin stress test
+├── src/                    # Core modules
+│   ├── model.py            # Process data structures
+│   ├── parser.py           # File I/O operations
+│   ├── scheduler.py        # Algorithm implementations
+│   ├── cli_view.py         # Terminal output & CSV export
+│   └── gui_view.py         # Tkinter GUI
+└── screenshots/            # Visual documentation
+```
+
+---
+
+## 📊 Supported Algorithms
+
+| Algorithm | Type | Complexity | Best For |
+|-----------|------|------------|----------|
+| **FCFS** | Non-preemptive | O(n) | Simple workloads |
+| **SJF** | Non-preemptive | O(n²) | Minimizing avg waiting time |
+| **Priority** | Non-preemptive | O(n²) | Critical process handling |
+| **Round Robin** | Preemptive | O(n) | Time-shared systems |
+
+---
+
+## 🧪 Testing
+
+Multiple test datasets included:
+
+```bash
+# Standard test case
+python main.py data/processes.txt
+
+# Demonstrate priority starvation
+python main.py data/starvation.txt
+
+# Test Round Robin with custom Time Quantum
+python main.py data/rr_heavy.txt 4
+```
+
+---
+
+## 🎓 Technical Highlights
+
+- **Zero External Dependencies** - Pure Python Standard Library
+- **Modular Architecture** - Clean separation of concerns
+- **Dual Interface** - CLI for automation, GUI for visualization
+- **Smart Analytics** - Automated performance comparison
+- **Production Logging** - Industry-standard logging practices
+- **Data Persistence** - Append-mode CSV for historical analysis
+- **UI/UX Polish** - Progress bars, active states, visual feedback
+
+---
+
+## 📝 License & Academic Use
+
+This project was developed for **CS305 - Operating Systems** course. Feel free to use for educational purposes with proper attribution.
+
+---
+
+## 👨‍💻 Author
+
+**Muhammet Ali Yoldar**  
+Student ID: 200444035  
+Türk Hava Kurumu University  
+Course: CS305 - Operating Systems
+
+---
+
+## 🙏 Acknowledgments
+
+Special thanks to the CS305 course instructor for providing the assignment specifications and test cases.
+
+---
+
+*Built with ❤️ using Python and Tkinter*

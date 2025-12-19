@@ -2,9 +2,10 @@
 
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
+import time
 from src.parser import parse_input
 from src.scheduler import run_fcfs, run_sjf, run_priority, run_rr
-from src.cli_view import calculate_cpu_utilization
+from src.cli_view import calculate_cpu_utilization, get_average_waiting_time, export_to_csv
 
 
 class SchedulerApp:
@@ -29,10 +30,15 @@ class SchedulerApp:
         self.file_path = None
         self.processes = []
         self.time_quantum = tk.IntVar(value=3)  # Default time quantum
+        self.current_results = {}  # Store results for CSV export
         
         # Colors for different processes in Gantt chart
         self.colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', 
                        '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2']
+        
+        # Button tracking for active state
+        self.algorithm_buttons = {}
+        self.active_button = None
         
         # Create GUI components
         self.create_widgets()
@@ -105,9 +111,12 @@ class SchedulerApp:
                 fg="white",
                 font=("Arial", 11, "bold"),
                 width=12,
-                height=2
+                height=2,
+                relief=tk.RAISED
             )
             btn.pack(side=tk.LEFT, padx=15, expand=True)
+            # Store button reference with original color
+            self.algorithm_buttons[name] = {'button': btn, 'original_color': color}
         
         # ===== BOTTOM SECTION: Results Display =====
         results_frame = tk.Frame(self.root, bg="white")
@@ -170,9 +179,13 @@ class SchedulerApp:
         self.lbl_avg_waiting = tk.Label(
             stats_frame,
             text="Average Waiting Time: --",
-            font=("Arial", 10, "bold"),
-            bg="white",
-            fg="#E67E22"
+            font=("Arial", 14, "bold"),  # Larger and bolder
+            bg="#FFF3CD",  # Light yellow background for emphasis
+            fg="#E67E22",
+            padx=10,
+            pady=5,
+            relief=tk.RIDGE,
+            borderwidth=2
         )
         self.lbl_avg_waiting.pack(side=tk.LEFT, padx=20)
         
@@ -184,6 +197,43 @@ class SchedulerApp:
             fg="#3498DB"
         )
         self.lbl_cpu_util.pack(side=tk.LEFT, padx=20)
+        
+        # ===== STATUS BAR AND PROGRESS BAR =====
+        status_frame = tk.Frame(self.root, bg="#34495E", height=30)
+        status_frame.pack(fill=tk.X, side=tk.BOTTOM)
+        
+        # Status label
+        self.lbl_status = tk.Label(
+            status_frame,
+            text="Ready",
+            bg="#34495E",
+            fg="white",
+            font=("Arial", 9),
+            anchor=tk.W
+        )
+        self.lbl_status.pack(side=tk.LEFT, padx=10, fill=tk.X, expand=True)
+        
+        # Progress bar
+        self.progress_bar = ttk.Progressbar(
+            status_frame,
+            length=200,
+            mode='determinate'
+        )
+        self.progress_bar.pack(side=tk.RIGHT, padx=10, pady=3)
+        self.progress_bar['value'] = 0
+        
+        # CSV Export button
+        self.btn_export_csv = tk.Button(
+            status_frame,
+            text="Export to CSV",
+            command=self.export_results_csv,
+            bg="#16A085",
+            fg="white",
+            font=("Arial", 9, "bold"),
+            padx=10,
+            pady=2
+        )
+        self.btn_export_csv.pack(side=tk.RIGHT, padx=5)
     
     def select_file(self):
         """Open file dialog to select input file."""
@@ -212,29 +262,126 @@ class SchedulerApp:
             return False
         return True
     
+    def highlight_button(self, button_name):
+        """
+        Highlight the active button and reset others.
+        
+        Args:
+            button_name (str): Name of the button to highlight
+        """
+        # Reset all buttons to original colors
+        for name, btn_info in self.algorithm_buttons.items():
+            btn = btn_info['button']
+            original_color = btn_info['original_color']
+            btn.config(bg=original_color, relief=tk.RAISED, borderwidth=2)
+        
+        # Highlight the active button
+        if button_name in self.algorithm_buttons:
+            active_btn = self.algorithm_buttons[button_name]['button']
+            # Make it darker and with sunken relief
+            active_btn.config(relief=tk.SUNKEN, borderwidth=4)
+            self.active_button = button_name
+    
+    def animate_progress(self, callback=None):
+        """
+        Animate progress bar from 0 to 100.
+        
+        Args:
+            callback (function): Optional function to call after animation
+        """
+        self.progress_bar['value'] = 0
+        self.root.update_idletasks()
+        
+        # Animate in 20 steps over ~1 second
+        for i in range(21):
+            self.progress_bar['value'] = i * 5
+            self.root.update_idletasks()
+            time.sleep(0.05)
+        
+        # Show completion message
+        self.lbl_status.config(text="Completed ✅")
+        
+        # Reset after 2 seconds
+        self.root.after(2000, lambda: self.lbl_status.config(text="Ready"))
+        
+        if callback:
+            callback()
+    
+    def export_results_csv(self):
+        """Export current results to CSV file."""
+        if not self.current_results:
+            messagebox.showwarning("No Results", "Please run an algorithm first!")
+            return
+        
+        self.lbl_status.config(text="Exporting to CSV...")
+        self.progress_bar['value'] = 0
+        self.root.update_idletasks()
+        
+        # Animate progress
+        for i in range(21):
+            self.progress_bar['value'] = i * 5
+            self.root.update_idletasks()
+            time.sleep(0.03)
+        
+        # Export to CSV
+        export_to_csv(self.current_results, filename="gui_results.csv")
+        
+        self.lbl_status.config(text="CSV Exported ✅")
+        messagebox.showinfo("Success", "Results exported to gui_results.csv!")
+        
+        # Reset status after 2 seconds
+        self.root.after(2000, lambda: self.lbl_status.config(text="Ready"))
+    
     def run_fcfs(self):
         """Run FCFS algorithm and display results."""
         if not self.check_file_loaded():
             return
         
+        # Highlight button
+        self.highlight_button("FCFS")
+        self.lbl_status.config(text="Running FCFS...")
+        self.root.update_idletasks()
+        
         gantt_chart, completed = run_fcfs(self.processes)
-        self.display_results("FCFS", completed, gantt_chart)
+        avg_wt = get_average_waiting_time(completed)
+        self.current_results['FCFS'] = (completed, avg_wt)
+        
+        # Animate progress and display results
+        self.animate_progress(lambda: self.display_results("FCFS", completed, gantt_chart))
     
     def run_sjf(self):
         """Run SJF algorithm and display results."""
         if not self.check_file_loaded():
             return
         
+        # Highlight button
+        self.highlight_button("SJF")
+        self.lbl_status.config(text="Running SJF...")
+        self.root.update_idletasks()
+        
         gantt_chart, completed = run_sjf(self.processes)
-        self.display_results("SJF", completed, gantt_chart)
+        avg_wt = get_average_waiting_time(completed)
+        self.current_results['SJF'] = (completed, avg_wt)
+        
+        # Animate progress and display results
+        self.animate_progress(lambda: self.display_results("SJF", completed, gantt_chart))
     
     def run_priority(self):
         """Run Priority algorithm and display results."""
         if not self.check_file_loaded():
             return
         
+        # Highlight button
+        self.highlight_button("Priority")
+        self.lbl_status.config(text="Running Priority Scheduling...")
+        self.root.update_idletasks()
+        
         gantt_chart, completed = run_priority(self.processes)
-        self.display_results("Priority", completed, gantt_chart)
+        avg_wt = get_average_waiting_time(completed)
+        self.current_results['Priority'] = (completed, avg_wt)
+        
+        # Animate progress and display results
+        self.animate_progress(lambda: self.display_results("Priority", completed, gantt_chart))
     
     def run_rr(self):
         """Run Round Robin algorithm and display results."""
@@ -251,8 +398,17 @@ class SchedulerApp:
             messagebox.showerror("Error", "Invalid time quantum value!")
             return
         
+        # Highlight button
+        self.highlight_button("Round Robin")
+        self.lbl_status.config(text=f"Running Round Robin (Q={quantum})...")
+        self.root.update_idletasks()
+        
         gantt_chart, completed = run_rr(self.processes, quantum)
-        self.display_results(f"Round Robin (Q={quantum})", completed, gantt_chart)
+        avg_wt = get_average_waiting_time(completed)
+        self.current_results['Round Robin'] = (completed, avg_wt)
+        
+        # Animate progress and display results
+        self.animate_progress(lambda: self.display_results(f"Round Robin (Q={quantum})", completed, gantt_chart))
     
     def display_results(self, algorithm_name, processes, gantt_chart):
         """

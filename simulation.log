@@ -1,0 +1,47 @@
+2025-12-19 18:02:36 - INFO - Application started
+2025-12-19 18:02:36 - INFO - CLI mode started
+2025-12-19 18:02:36 - INFO - Reading input file: data/processes.txt
+2025-12-19 18:02:36 - INFO - Input file parsed: 4 processes loaded
+2025-12-19 18:02:36 - INFO - Algorithm FCFS execution started
+2025-12-19 18:02:36 - INFO - Algorithm FCFS execution completed - Avg WT: 8.75
+2025-12-19 18:02:36 - INFO - Algorithm SJF execution started
+2025-12-19 18:02:36 - INFO - Algorithm SJF execution completed - Avg WT: 7.75
+2025-12-19 18:02:36 - INFO - Algorithm Priority execution started
+2025-12-19 18:02:36 - INFO - Algorithm Priority execution completed - Avg WT: 7.75
+2025-12-19 18:02:36 - INFO - Algorithm Round Robin execution started (TQ=3)
+2025-12-19 18:02:36 - INFO - Algorithm Round Robin execution completed - Avg WT: 13.50
+2025-12-19 18:02:36 - INFO - Best algorithm: SJF with avg WT: 7.75
+2025-12-19 18:02:36 - INFO - Exporting results to CSV
+2025-12-19 18:02:36 - INFO - Results exported successfully
+2025-12-19 18:06:11 - INFO - Application started
+2025-12-19 18:22:52 - INFO - Application started
+2025-12-19 18:22:52 - INFO - CLI mode started
+2025-12-19 18:22:52 - INFO - Reading input file: data/processes.txt
+2025-12-19 18:22:52 - INFO - Input file parsed: 4 processes loaded
+2025-12-19 18:22:52 - INFO - Algorithm FCFS execution started
+2025-12-19 18:22:52 - INFO - Algorithm FCFS execution completed - Avg WT: 8.75
+2025-12-19 18:22:52 - INFO - Algorithm SJF execution started
+2025-12-19 18:22:52 - INFO - Algorithm SJF execution completed - Avg WT: 7.75
+2025-12-19 18:22:52 - INFO - Algorithm Priority execution started
+2025-12-19 18:22:52 - INFO - Algorithm Priority execution completed - Avg WT: 7.75
+2025-12-19 18:22:52 - INFO - Algorithm Round Robin execution started (TQ=3)
+2025-12-19 18:22:52 - INFO - Algorithm Round Robin execution completed - Avg WT: 13.50
+2025-12-19 18:22:52 - INFO - Best algorithm: SJF with avg WT: 7.75
+2025-12-19 18:22:52 - INFO - Exporting results to CSV
+2025-12-19 18:22:53 - INFO - Results exported successfully
+2025-12-19 18:29:59 - INFO - Application started
+2025-12-19 18:31:47 - INFO - Application started
+2025-12-19 18:31:47 - INFO - CLI mode started
+2025-12-19 18:31:47 - INFO - Reading input file: data/processes.txt
+2025-12-19 18:31:47 - INFO - Input file parsed: 4 processes loaded
+2025-12-19 18:31:47 - INFO - Algorithm FCFS execution started
+2025-12-19 18:31:47 - INFO - Algorithm FCFS execution completed - Avg WT: 8.75
+2025-12-19 18:31:47 - INFO - Algorithm SJF execution started
+2025-12-19 18:31:47 - INFO - Algorithm SJF execution completed - Avg WT: 7.75
+2025-12-19 18:31:47 - INFO - Algorithm Priority execution started
+2025-12-19 18:31:47 - INFO - Algorithm Priority execution completed - Avg WT: 7.75
+2025-12-19 18:31:47 - INFO - Algorithm Round Robin execution started (TQ=5)
+2025-12-19 18:31:47 - INFO - Algorithm Round Robin execution completed - Avg WT: 11.00
+2025-12-19 18:31:47 - INFO - Best algorithm: SJF with avg WT: 7.75
+2025-12-19 18:31:47 - INFO - Exporting results to CSV
+2025-12-19 18:31:48 - INFO - Results exported successfully

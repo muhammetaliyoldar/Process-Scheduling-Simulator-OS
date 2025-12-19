@@ -5,7 +5,11 @@
 
 # Run CLI mode with default input file
 run:
-	python main.py data/input.txt
+	python main.py data/processes.txt
+
+# Run CLI mode with custom Time Quantum (example: TQ=4)
+run-tq:
+	python main.py data/processes.txt 4
 
 # Run GUI mode
 gui:

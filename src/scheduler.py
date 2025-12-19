@@ -1,6 +1,10 @@
 # Scheduling algorithms implementation
 # This file contains the core logic for 4 different CPU scheduling algorithms
 
+# ASSUMPTIONS:
+# 1. Context-switching overhead is zero.
+# 2. Tie-breaking: FCFS (Arrival Time) is used when burst times or priorities are equal.
+
 import copy
 
 

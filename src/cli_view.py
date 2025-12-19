@@ -145,3 +145,104 @@ def calculate_cpu_utilization(gantt_chart):
     cpu_utilization = (busy_time / total_time) * 100
     
     return cpu_utilization
+
+
+def get_average_waiting_time(processes):
+    """
+    Calculate average waiting time for a list of processes.
+    
+    Args:
+        processes (list): List of Process objects
+    
+    Returns:
+        float: Average waiting time
+    """
+    if not processes:
+        return 0.0
+    
+    total_waiting = sum(p.waiting_time for p in processes)
+    return total_waiting / len(processes)
+
+
+def export_to_csv(results_dict, filename="results.csv"):
+    """
+    Export scheduling results to a CSV file with append mode.
+    
+    Args:
+        results_dict (dict): Dictionary mapping algorithm names to (processes, avg_waiting_time)
+        filename (str): Output CSV filename (default: "results.csv")
+    """
+    import csv
+    import os
+    from datetime import datetime
+    
+    try:
+        # Check if file exists to determine if we need to write headers
+        file_exists = os.path.exists(filename)
+        
+        # Show ASCII progress bar
+        show_ascii_progress("Saving results")
+        
+        with open(filename, mode='a', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            
+            # Write header only if file doesn't exist
+            if not file_exists:
+                writer.writerow(['Timestamp', 'Algorithm', 'Process_ID', 'Arrival', 
+                               'Burst', 'Priority', 'Finish', 'Turnaround', 'Waiting'])
+            
+            # Get current timestamp
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            
+            # Write data for each algorithm
+            for algorithm_name, (processes, _) in results_dict.items():
+                for process in sorted(processes, key=lambda p: p.process_id):
+                    writer.writerow([
+                        timestamp,
+                        algorithm_name,
+                        process.process_id,
+                        process.arrival_time,
+                        process.burst_time,
+                        process.priority if hasattr(process, 'priority') else 'N/A',
+                        process.finish_time,
+                        process.turnaround_time,
+                        process.waiting_time
+                    ])
+        
+        print(f"\n✓ Results exported to {filename}")
+        return True
+    
+    except Exception as e:
+        print(f"\n✗ Error exporting to CSV: {e}")
+        return False
+
+
+def show_ascii_progress(message="Processing", duration=0.8):
+    """
+    Display an ASCII progress bar in the terminal.
+    
+    Args:
+        message (str): Message to display
+        duration (float): Animation duration in seconds
+    """
+    import sys
+    import time
+    
+    total_bars = 10
+    delay = duration / total_bars
+    
+    for i in range(total_bars + 1):
+        filled = '█' * i
+        empty = '░' * (total_bars - i)
+        percent = (i / total_bars) * 100
+        
+        # Print progress bar on same line
+        sys.stdout.write(f'\r{message}... [{filled}{empty}] {percent:.0f}%')
+        sys.stdout.flush()
+        
+        time.sleep(delay)
+    
+    # Move to next line after completion
+    sys.stdout.write('\n')
+    sys.stdout.flush()
+

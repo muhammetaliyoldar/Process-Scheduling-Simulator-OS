@@ -1,0 +1,9 @@
+# CS305 - Tie-Breaking Test for FCFS and SJF
+# Format: Process_ID, Arrival_Time, Burst_Time, Priority
+# All processes arrive at the same time to test tie-breaking rules
+P1,0,5,2
+P2,0,5,1
+P3,0,5,3
+P4,0,3,2
+P5,0,7,1
+P6,0,3,3

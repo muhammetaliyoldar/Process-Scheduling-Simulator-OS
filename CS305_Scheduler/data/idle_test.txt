@@ -1,7 +1,0 @@
-# CS305 - CPU Idle Time Test
-# Format: Process_ID, Arrival_Time, Burst_Time, Priority
-# Tests CPU idle periods between process arrivals
-P1,0,5,2
-P2,10,4,1
-P3,20,3,3
-P4,25,6,2

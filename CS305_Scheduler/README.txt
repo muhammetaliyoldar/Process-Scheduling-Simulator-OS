@@ -1,1 +1,0 @@
-# Hocanın istediği açıklama dosyası

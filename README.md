@@ -29,8 +29,8 @@ The project features a hybrid architecture supporting both terminal-based execut
 ## 🛠️ Installation
 
 ```bash
-git clone https://github.com/myoldar/Process-Scheduling-Simulator-OS.git
-cd Process-Scheduling-Simulator-OS/CS305_Scheduler
+git clone https://github.com/muhammetaliyoldar/Process-Scheduling-Simulator-OS.git
+
 ```
 
 **Requirements:** Python 3.10+ (no external dependencies required)
